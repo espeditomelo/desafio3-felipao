@@ -1,3 +1,4 @@
+// classe para instanciamentos dos objetos hero
 class hero {  
 
     constructor(heroName, heroAge, heroTypeSelected){
@@ -6,50 +7,64 @@ class hero {
         this.heroTypeSelected = heroTypeSelected
     }   
 
+    showAttack(){
+        console.log(`o ${heroTypes.types[heroTypeSelected]} atacou usando ${heroTypes.attacks[heroTypeSelected]}`)
+    }    
 }
 
+//inicio
 const input = require("prompt-sync")({sigint: true})
 
+// variáveis globais
 let heroName
 let heroAge
-let heroTypes = ["mago", "guerreiro", "monge", "ninja"]
+//json para tipos de heróis
+let heroTypes = {
+    types: ["mago", "guerreiro", "monge", "ninja"],
+    attacks: ["magia", "espada", "artes maciais","shuriken"]
+}
 let heroTypeSelected
 let answer = "s"
 
+console.log()
+console.log("*** Herói x Aventura ***")
+
+// laço para cadastrar heroi
 while (answer === "s" || answer === "S") {
 
+    console.log()
     heroName = input("Insira o nome do herói: ")
+    console.log()
     heroAge = input("Insira a idade do herói: ")    
     console.log()
 
-    heroTypeSelected = heroTypes.length + 1    
-    while (heroTypeSelected > heroTypes.length) {
+    heroTypeSelected = heroTypes.types.length 
+    
+    // laço para só permitir escolher o um tipo de herói válido
+    while (heroTypeSelected > heroTypes.types.length - 1) {
 
-        for (let index in heroTypes) {
-            console.log(`${index}: ${heroTypes[index]}`)
+        // for in para apresentar heróis conforme o json heroTypes
+        for (let index in heroTypes.types) {
+            console.log(`${index}: ${heroTypes.types[index]}`)
         }
 
+        console.log()
         heroTypeSelected = input("Selecione um tipo de herói: ")            
-        
-        if(heroTypeSelected > heroTypes.length){
+        console.log()
+
+        if(heroTypeSelected > heroTypes.types.length){
             console.log()
             console.log("Atenção! Tipo de herói inválido.")
             console.log()
         }
     } 
-    
-    console.log()
 
+    // instancia objeto hero
     let heroAdventure = new hero(heroName, heroAge, heroTypeSelected)
 
-    //tested
-    console.log(heroAdventure.heroName + " "+ heroAdventure.heroAge + " " + heroTypeSelected)
-
-    answer = input("Deseja definir aventura para mais um herói? (S/N)")
+    // executa método para apresentacao do resultado a partir do tipo de herói
+    heroAdventure.showAttack();
 
     console.log()
-    
-
+    answer = input("Deseja definir aventura para mais um herói? (S/N)")  
 }
-
-
